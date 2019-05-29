@@ -1,7 +1,7 @@
 import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
-import Bookshelf from "./components/Bookshelf";
+import BookshelfList from "./components/BookshelfList";
 
 class BooksApp extends React.Component {
 
@@ -10,31 +10,13 @@ class BooksApp extends React.Component {
         showSearchPage: false
     };
 
-    bookshelfs = [
-        "Currently Reading",
-        "Want to Read",
-        "Read"
-    ];
-
     componentDidMount() {
         BooksAPI.getAll().then(
             books => this.setState({books})
         )
     }
 
-
     render() {
-        let currentlyReadingBooks = this.state.books.filter(function (book) {
-            return book.shelf === 'currentlyReading'
-        });
-
-        let wantToReadBooks = this.state.books.filter(function (book) {
-            return book.shelf === 'wantToRead'
-        });
-
-        let readBooks = this.state.books.filter(function (book) {
-            return book.shelf === 'read'
-        });
 
         return (
             <div className="app">
@@ -57,13 +39,7 @@ class BooksApp extends React.Component {
                         <div className="list-books-title">
                             <h1>MyReads</h1>
                         </div>
-                        <div className="list-books-content">
-                            <div>
-                                <Bookshelf title={this.bookshelfs[0]} books={currentlyReadingBooks}/>
-                                <Bookshelf title={this.bookshelfs[1]} books={wantToReadBooks}/>
-                                <Bookshelf title={this.bookshelfs[2]} books={readBooks}/>
-                            </div>
-                        </div>
+                        <BookshelfList books={this.state.books}/>
                         <div className="open-search">
                             <button onClick={() => this.setState({showSearchPage: true})}>Add a book</button>
                         </div>
@@ -72,6 +48,8 @@ class BooksApp extends React.Component {
             </div>
         )
     }
+
+
 }
 
 export default BooksApp
