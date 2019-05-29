@@ -16,8 +16,12 @@ class BooksApp extends React.Component {
         )
     }
 
-    render() {
+    onChangeShelf = (book, shelf) => {
+        BooksAPI.update(book, shelf).then(
+        )
+    };
 
+    render() {
         return (
             <div className="app">
                 {this.state.showSearchPage ? (
@@ -39,7 +43,7 @@ class BooksApp extends React.Component {
                         <div className="list-books-title">
                             <h1>MyReads</h1>
                         </div>
-                        <BookshelfList books={this.state.books}/>
+                        <BookshelfList books={this.state.books} onChangeShelf={this.onChangeShelf}/>
                         <div className="open-search">
                             <button onClick={() => this.setState({showSearchPage: true})}>Add a book</button>
                         </div>
@@ -48,8 +52,6 @@ class BooksApp extends React.Component {
             </div>
         )
     }
-
-
 }
 
 export default BooksApp

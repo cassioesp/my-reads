@@ -32,9 +32,12 @@ class BookshelfList extends React.Component {
         return (
             <div className="list-books-content">
                 <div>
-                    <Bookshelf title={this.bookshelfs[0]} books={this.currentlyReadingBooks()}/>
-                    <Bookshelf title={this.bookshelfs[1]} books={this.wantToReadBooks()}/>
-                    <Bookshelf title={this.bookshelfs[2]} books={this.readBooks()}/>
+                    <Bookshelf title={this.bookshelfs[0]} books={this.currentlyReadingBooks()}
+                               onChangeShelf={this.props.onChangeShelf}/>
+                    <Bookshelf title={this.bookshelfs[1]} books={this.wantToReadBooks()}
+                               onChangeShelf={this.props.onChangeShelf}/>
+                    <Bookshelf title={this.bookshelfs[2]} books={this.readBooks()}
+                               onChangeShelf={this.props.onChangeShelf}/>
                 </div>
             </div>
         )
