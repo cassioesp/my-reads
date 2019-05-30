@@ -2,13 +2,37 @@ import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 import BookshelfList from "./components/BookshelfList";
+import SearchBooks from "./components/SearchBooks";
 
 class BooksApp extends React.Component {
 
     state = {
         books: [],
+        searchedBooks: [],
         showSearchPage: false
     };
+
+    onSearchSubmit = (input) => {
+        BooksAPI.search(input).then(
+            searchedBooks => {
+                if (searchedBooks.error) {
+                    this.setState({searchedBooks: searchedBooks.items})
+                } else {
+                    this.setState({searchedBooks})
+                }
+            }
+        )
+    };
+
+    showSearchPage = (flag) => {
+        this.setState({
+            showSearchPage: flag
+        })
+    };
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log(this.state.searchedBooks)
+    }
 
     componentDidMount() {
         BooksAPI.getAll().then(
@@ -25,19 +49,8 @@ class BooksApp extends React.Component {
         return (
             <div className="app">
                 {this.state.showSearchPage ? (
-                    <div className="search-books">
-                        <div className="search-books-bar">
-                            <button className="close-search"
-                                    onClick={() => this.setState({showSearchPage: false})}>Close
-                            </button>
-                            <div className="search-books-input-wrapper">
-                                <input type="text" placeholder="Search by title or author"/>
-                            </div>
-                        </div>
-                        <div className="search-books-results">
-                            <ol className="books-grid"></ol>
-                        </div>
-                    </div>
+                    <SearchBooks onSearchSubmit={this.onSearchSubmit} searchedBooks={this.state.searchedBooks}
+                                 showSearchPage={this.showSearchPage}/>
                 ) : (
                     <div className="list-books">
                         <div className="list-books-title">
