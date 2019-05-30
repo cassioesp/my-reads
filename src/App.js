@@ -30,18 +30,17 @@ class BooksApp extends React.Component {
         })
     };
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log(this.state.searchedBooks)
-    }
-
     componentDidMount() {
         BooksAPI.getAll().then(
             books => this.setState({books})
         )
     }
 
-    onChangeShelf = (book, shelf) => {
-        BooksAPI.update(book, shelf).then(
+    onChangeShelf = (updatedBook, shelf) => {
+        BooksAPI.update(updatedBook, shelf).then(
+            this.setState({
+                books: this.state.books.map(book => (book.id === updatedBook.id ? {...book, shelf} : book))
+            })
         )
     };
 
