@@ -41,7 +41,7 @@ class SearchBooks extends React.Component {
                                         <Book
                                             id={book.id}
                                             title={book.title}
-                                            author={book.authors[0] || ''}
+                                            author={book.authors && book.authors[0]}
                                             backgroundImageURL={book.imageLinks.thumbnail}
                                             width={128}
                                             height={193}
