@@ -11,19 +11,19 @@ class BookshelfList extends React.Component {
     ];
 
     currentlyReadingBooks() {
-        return this.props.books.filter(function (book) {
+        return this.props.books && this.props.books.filter(function (book) {
             return book.shelf === 'currentlyReading'
         });
     }
 
     wantToReadBooks() {
-        return this.props.books.filter(function (book) {
+        return this.props.books && this.props.books.filter(function (book) {
             return book.shelf === 'wantToRead'
         });
     }
 
     readBooks() {
-        return this.props.books.filter(function (book) {
+        return this.props.books && this.props.books.filter(function (book) {
             return book.shelf === 'read'
         });
     }
