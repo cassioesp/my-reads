@@ -1,12 +1,33 @@
-import React from 'react'
+import React, {Component} from 'react';
 import Book from "./Book";
+import {connect} from "react-redux";
+import {fetchBooks} from "../actions";
 
-class Bookshelf extends React.Component {
+class Bookshelf extends Component {
 
-    onChangeShelf = (id, shelf) => {
-        let book = this.props.books.find((book) => book.id === id);
-        this.props.onChangeShelf(book, shelf);
-    };
+    componentDidMount() {
+        this.props.fetchBooks();
+    }
+
+    renderBooks() {
+        return this.props.books.filter(book => {
+            return book.shelf === this.props.filter
+        }).map((book) => {
+                return (
+                    <li key={book.id}>
+                        <Book
+                            id={book.id}
+                            title={book.title}
+                            author={book.authors[0]}
+                            shelf={book.shelf}
+                            backgroundImageURL={book.imageLinks.thumbnail}
+                            width={128}
+                            height={193}/>
+                    </li>
+                )
+            }
+        )
+    }
 
     render() {
         return (
@@ -14,22 +35,7 @@ class Bookshelf extends React.Component {
                 <h2 className="bookshelf-title">{this.props.title}</h2>
                 <div className="bookshelf-books">
                     <ol className="books-grid">
-                        {this.props.books && this.props.books.map((book) => {
-                                return (
-                                    <li key={book.id}>
-                                        <Book
-                                            id={book.id}
-                                            title={book.title}
-                                            author={book.authors[0]}
-                                            shelf={book.shelf}
-                                            backgroundImageURL={book.imageLinks.thumbnail}
-                                            width={128}
-                                            height={193}
-                                            onChangeShelf={this.onChangeShelf}/>
-                                    </li>
-                                )
-                            }
-                        )}
+                        {this.renderBooks()}
                     </ol>
                 </div>
             </div>
@@ -37,4 +43,9 @@ class Bookshelf extends React.Component {
     }
 }
 
-export default Bookshelf
+const mapStateToProps = state => {
+    return {books: state.books};
+};
+
+
+export default connect(mapStateToProps, {fetchBooks})(Bookshelf);

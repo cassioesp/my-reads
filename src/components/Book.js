@@ -1,11 +1,8 @@
 import React from 'react'
-
+import {changeShelf} from '../actions'
+import {connect} from "react-redux";
 
 class Book extends React.Component {
-
-    onChangeShelf = (e) => {
-        this.props.onChangeShelf(this.props.id, e.target.value);
-    };
 
     render() {
         const {title, author, shelf} = this.props;
@@ -18,7 +15,8 @@ class Book extends React.Component {
                         backgroundImage: 'url("' + this.props.backgroundImageURL + '")'
                     }}/>
                     <div className="book-shelf-changer">
-                        <select onChange={this.onChangeShelf} value={shelf}>
+                        <select onChange={(e) => {
+                            this.props.changeShelf(this.props, this.props.books, e.target.value)}} value={shelf}>
                             <option value="move" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
@@ -33,4 +31,11 @@ class Book extends React.Component {
     }
 }
 
-export default Book
+const mapStateToProps = state => {
+    return {
+        selectedBook: state.selectedBook,
+        books: state.books
+    };
+};
+
+export default connect(mapStateToProps, {changeShelf})(Book);

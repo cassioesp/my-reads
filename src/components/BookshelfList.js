@@ -1,6 +1,6 @@
 import React from 'react'
 import Bookshelf from "./Bookshelf";
-
+import {connect} from "react-redux";
 
 class BookshelfList extends React.Component {
 
@@ -10,38 +10,28 @@ class BookshelfList extends React.Component {
         "Read"
     ];
 
-    currentlyReadingBooks() {
-        return this.props.books && this.props.books.filter(function (book) {
-            return book.shelf === 'currentlyReading'
-        });
-    }
-
-    wantToReadBooks() {
-        return this.props.books && this.props.books.filter(function (book) {
-            return book.shelf === 'wantToRead'
-        });
-    }
-
-    readBooks() {
-        return this.props.books && this.props.books.filter(function (book) {
-            return book.shelf === 'read'
-        });
-    }
+    filters = [
+        "currentlyReading",
+        "wantToRead",
+        "read"
+    ];
 
     render() {
         return (
             <div className="list-books-content">
                 <div>
-                    <Bookshelf title={this.bookshelfs[0]} books={this.currentlyReadingBooks()}
-                               onChangeShelf={this.props.onChangeShelf}/>
-                    <Bookshelf title={this.bookshelfs[1]} books={this.wantToReadBooks()}
-                               onChangeShelf={this.props.onChangeShelf}/>
-                    <Bookshelf title={this.bookshelfs[2]} books={this.readBooks()}
-                               onChangeShelf={this.props.onChangeShelf}/>
+                    <Bookshelf title={this.bookshelfs[0]} filter={this.filters[0]}/>
+                    <Bookshelf title={this.bookshelfs[1]} filter={this.filters[1]}/>
+                    <Bookshelf title={this.bookshelfs[2]} filter={this.filters[2]}/>
                 </div>
             </div>
         )
     }
 }
 
-export default BookshelfList
+const mapStateToProps = state => {
+    return {books: state.books};
+};
+
+
+export default connect(mapStateToProps)(BookshelfList)

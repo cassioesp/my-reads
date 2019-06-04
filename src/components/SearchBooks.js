@@ -1,19 +1,13 @@
 import React from 'react'
 import Book from "./Book";
+import {connect} from "react-redux";
+import {searchBooks, searchTerm, showSearchPage} from "../actions";
 
 class SearchBooks extends React.Component {
 
-    state = {
-        term: ''
-    };
-
-    hideSearchPage = () => {
-        this.props.showSearchPage(false);
-    };
-
-    onSearchSubmit = event => {
+    searchBooks = event => {
         event.preventDefault();
-        this.props.onSearchSubmit(this.state.term);
+        this.props.searchBooks(this.props.term)
     };
 
     render() {
@@ -23,12 +17,12 @@ class SearchBooks extends React.Component {
             <div className="search-books">
                 <div className="search-books-bar">
                     <button className="close-search"
-                            onClick={this.hideSearchPage}>Close
+                            onClick={() => this.props.showSearchPage(false)}>Close
                     </button>
-                    <form onSubmit={this.onSearchSubmit}>
+                    <form onSubmit={this.searchBooks}>
                         <div className="search-books-input-wrapper">
                             <input type="text" placeholder="Search by title or author"
-                                   onChange={e => this.setState({term: e.target.value})}/>
+                                   onChange={e => this.props.searchTerm(e.target.value)}/>
                         </div>
                     </form>
                 </div>
@@ -57,4 +51,11 @@ class SearchBooks extends React.Component {
     }
 }
 
-export default SearchBooks
+const mapStateToProps = state => {
+    return {
+        term: state.term,
+        searchedBooks: state.searchedBooks
+    }
+};
+
+export default connect(mapStateToProps, {showSearchPage, searchTerm, searchBooks})(SearchBooks)
