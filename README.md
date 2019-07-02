@@ -6,6 +6,8 @@
 
 This project is part of Udacity Full Stack nanodegree program. The main purpose is to training my knowledges in React.
 
+Two versions of this application was built. One at 'redux' branch I implemented using redux library and at 'master' branch we have a version without redux library.
+
 ## How to Run the Application
 
 The project uses Node.js and the Create-React-App starter. If you do not have Node >= 6.x installed, you can download it here: [Node.js](https://nodejs.org/en/)
